@@ -23,7 +23,7 @@ jobs:
       - name: Set up Maven
         uses: stCarolas/setup-maven@v4
         with:
-          maven-version: 3.11.0
+          maven-version: 3.9.9
 
       - name: Configure Maven Settings for GitHub Packages
         run: |
