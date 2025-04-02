@@ -3,12 +3,12 @@ name: Build and Publish OSB Project
 on:
   push:
     branches:
-      - main  # Change to your main branch name
+      - main  # Change this if needed
   pull_request:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Using GitHub-hosted runner
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
@@ -23,7 +23,12 @@ jobs:
       - name: Set up Maven
         uses: stCarolas/setup-maven@v4
         with:
-          maven-version: 3.9.9
+          maven-version: 3.11.0
+
+      - name: Configure Maven Settings for GitHub Packages
+        run: |
+          mkdir -p ~/.m2
+          echo "<settings><servers><server><id>github</id><username>${{ secrets.GH_USERNAME }}</username><password>${{ secrets.GH_TOKEN }}</password></server></servers></settings>" > ~/.m2/settings.xml
 
       - name: Build OSB Project
         run: mvn clean package
