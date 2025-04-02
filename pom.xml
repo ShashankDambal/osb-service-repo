@@ -15,7 +15,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.version>3.11.0</maven.version>
+        <maven.version>3.9.9</maven.version>
     </properties>
 
     <repositories>
@@ -32,20 +32,12 @@
         </repository>
     </distributionManagement>
     
-    <servers>
-     <server>
-        <id>github</id>
-        <username>${env.GH_USERNAME}</username>
-        <password>${env.GH_TOKEN}</password>
-     </server>
-    </servers>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.9.9</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
