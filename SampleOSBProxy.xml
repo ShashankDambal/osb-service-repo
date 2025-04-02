@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy-service name="SampleOSBProxy">
+  <interface>
+    <wsdl-location>SampleService.wsdl</wsdl-location>
+  </interface>
+  <pipeline>
+    <stage>
+      <log>Request received</log>
+    </stage>
+    <route>
+      <service>SampleBPELProcess</service>
+    </route>
+  </pipeline>
+</proxy-service>
