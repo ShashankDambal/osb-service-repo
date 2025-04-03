@@ -24,9 +24,8 @@ jobs:
           </settings>" > $HOME/.m2/settings.xml
 
       - name: Download OSB JAR from GitHub Packages
-        shell: pwsh
-        run: |
-          mvn dependency:get -Dartifact=com.example:osb-service:1.0.0 -DremoteRepositories="github::default::https://maven.pkg.github.com/ShashankDambal/osb-service-repo" -Ddest="C:\Oracle\Middleware\deployments\osb\"
+        shell: cmd
+        run: mvn dependency:get -Dartifact=com.example:osb-service:1.0.0 -DremoteRepositories="github::default::https://maven.pkg.github.com/ShashankDambal/osb-service-repo" -Ddest=C:\Oracle\Middleware\deployments\osb\
             
       - name: Deploy OSB Using WLST
         run: C:\Oracle\Middleware\OMW_Home\oracle_common\common\bin\wlst.cmd C:\Oracle\Middleware\deployments\osb\deploy_osb.py
