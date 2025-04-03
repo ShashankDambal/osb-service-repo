@@ -11,18 +11,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Configure Maven Authentication
-        run: |
-          echo "<settings>
-            <servers>
-              <server>
-                <id>github</id>
-                <username>ShashankDambal</username>
-                <password>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</password>
-              </server>
-            </servers>
-          </settings>" > $HOME/.m2/settings.xml
-
       - name: Download OSB JAR from GitHub Packages
         shell: cmd
         run: mvn dependency:get -Dartifact=com.example:osb-service:1.0.0 -DremoteRepositories="github::default::https://maven.pkg.github.com/ShashankDambal/osb-service-repo" -Ddest=C:\Oracle\Middleware\deployments\osb\
