@@ -16,7 +16,7 @@ jobs:
         run: mvn dependency:get -Dartifact=com.example:osb-service:1.0.0 -DremoteRepositories=github::default::https://maven.pkg.github.com/ShashankDambal/osb-service-repo
 
       - name: Find and Move OSB JAR
-        shell: pwsh
+        shell: powershell
         run: |
           $jarFile = Get-ChildItem -Path "$env:USERPROFILE\.m2\repository\com\example\osb-service\1.0.0\" -Filter "*.jar" | Select-Object -ExpandProperty FullName
           if (-not $jarFile) { 
