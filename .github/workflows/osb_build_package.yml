@@ -1,0 +1,67 @@
+name: Build and Publish OSB Project
+
+on:
+  push:
+    branches:
+      - master  # Change this if needed
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 8
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4
+        with:
+          maven-version: 3.9.9
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Configure Maven Settings for GitHub Packages
+        run: |
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml <<EOF
+          <settings>
+            <servers>
+              <server>
+                <id>github</id>
+                <username>${{ secrets.GH_USERNAME }}</username>
+                <password>${{ secrets.GH_TOKEN }}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
+
+      - name: Set Dynamic Version, Build, and Revert
+        run: |
+          mvn versions:update-child-modules
+
+          mvn versions:set -DnewVersion=osb~RB-${{ env.ReleaseNumber }}~${{ env.SVNRevisionNumber }} -DprocessParent=false
+
+          mvn clean package
+
+          mvn versions:revert
+        env:
+          ReleaseNumber: 1.0.0  # You can dynamically set this if needed
+          SVNRevisionNumber: 12345  # Replace with logic to fetch real revision if needed
+
+      - name: Publish Artifact to GitHub Packages
+        run: mvn deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
